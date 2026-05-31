@@ -1,0 +1,10 @@
+{
+  "name": "xhh-bot",
+  "version": "1.0.0",
+  "description": "小黑盒@机器人 - 公开无需白名单",
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "pg": "^8.21.0",
+    "sql.js": "^1.10.0"
+  }
+}
