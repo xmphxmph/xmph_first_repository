@@ -1,0 +1,4 @@
+node_modules/
+xhh-config.json
+xhh_data.db
+.env

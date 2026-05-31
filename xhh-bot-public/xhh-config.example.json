@@ -1,0 +1,33 @@
+{
+    "_说明": "将本文件重命名为 xhh-config.json 并填写你的配置",
+    "cookie": {
+        "user_pkey": "你的 user_pkey，从小黑盒网页版 Cookie 中获取",
+        "heybox_id": "你的小黑盒 UID",
+        "x_xhh_tokenid": "你的 x_xhh_tokenid，从小黑盒网页版 Cookie 中获取"
+    },
+    "bot": {
+        "checkInterval": 30,
+        "replyDelay": 10,
+        "baseUrl": "https://api.xiaoheihe.cn",
+        "deviceId": "",
+        "webver": "2.5",
+        "version": "999.0.4"
+    },
+    "ai": {
+        "model": "qwen-turbo",
+        "prompt": "你是一个有人情味的AI助手，回复游戏社区的问题。输出纯文本，不使用Markdown。如果不知道就说不知道。",
+        "baseUrl": "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions",
+        "token": "你的 AI API Key",
+        "webSearch": false
+    },
+    "database": {
+        "_说明": "支持 SQLite（默认）和 PostgreSQL 两种模式",
+        "type": "sqlite",
+        "path": "xhh_data.db",
+        "host": "localhost",
+        "port": 5432,
+        "db": "postgres",
+        "user": "",
+        "password": ""
+    }
+}

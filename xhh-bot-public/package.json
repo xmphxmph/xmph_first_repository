@@ -1,0 +1,9 @@
+{
+  "name": "xhh-bot",
+  "version": "1.0.0",
+  "description": "小黑盒@机器人 - 公开开源，任何人都可以配置使用",
+  "dependencies": {
+    "pg": "^8.21.0",
+    "sql.js": "^1.10.0"
+  }
+}
