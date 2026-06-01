@@ -35,9 +35,9 @@ npm install
 
 | 字段 | 说明 | 示例 |
 |------|------|------|
-| `user_pkey` | 用户身份密钥 | `MTc3OTY4...` |
-| `user_heybox_id` | 小黑盒 UID | `99143914` |
-| `x_xhh_tokenid` | 登录令牌 | `By4FBK...` |
+| `user_pkey` | 用户身份密钥 | `ABC123...` |
+| `user_heybox_id` | 小黑盒 UID | `12345678` |
+| `x_xhh_tokenid` | 登录令牌 | `XYZ789...` |
 
 ### 3. 配置 AI API
 
@@ -49,35 +49,19 @@ npm install
 | DeepSeek | `deepseek-chat` | 便宜，速度快 |
 | Grok (yunwu.ai) | `grok-4.2-fast` | 速度快 |
 
-### 4. 编辑配置
+### 4. 运行初始化向导（推荐）
 
-复制并编辑 `xhh-config.json`：
-
-```json
-{
-    "cookie": {
-        "user_pkey": "你的 user_pkey",
-        "heybox_id": "你的小黑盒 UID",
-        "x_xhh_tokenid": "你的 x_xhh_tokenid"
-    },
-    "bot": {
-        "checkInterval": 30,
-        "replyDelay": 10
-    },
-    "ai": {
-        "model": "qwen-turbo",
-        "prompt": "你是一个有人情味的AI助手...",
-        "baseUrl": "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions",
-        "token": "你的 API Key"
-    },
-    "database": {
-        "type": "sqlite",
-        "path": "xhh_data.db"
-    }
-}
+```bash
+node src/setup.js
 ```
 
-### 5. 启动
+根据提示交互式填写 Cookie、AI 接口、角色设定、数据库类型。
+
+### 5. 或手动编辑配置
+
+复制 `xhh-config.example.json` 为 `xhh-config.json` 并填写。
+
+### 6. 启动
 
 ```bash
 # Windows
@@ -104,7 +88,7 @@ node src/index.js
         "host": "localhost",
         "port": 5432,
         "db": "postgres",
-        "user": "myrobot_user",
+        "user": "db_user",
         "password": "your_password"
     }
 }

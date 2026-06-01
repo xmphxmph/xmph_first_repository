@@ -44,130 +44,136 @@
 
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-三、获取小黑盒 Cookie
+三、从浏览器里拿 Cookie（让机器人登录你的账号）
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-1. 打开 Edge 或 Chrome 浏览器
-2. 访问 https://www.xiaoheihe.cn 并登录你的账号
-3. 按键盘上的 F12 键（打开开发者工具）
-4. 点击顶部 "Network"（网络）标签
-5. 在过滤输入框里输入：api.xiaoheihe
-6. 按 F5 刷新页面
-7. 点击出现的第一个请求
-8. 在右侧找到 "Request Headers"（请求标头）
-9. 找到 "Cookie" 这一行
-10. 从 Cookie 里提取三个值：
+机器人要用你的小黑盒账号来回复，所以需要从浏览器里复制
+三样东西（就是 Cookie 里的三个值）。跟着下面一步步来：
+1.打开小黑盒网页，登录你想要当成机器人的帐号
+2.按F12
+3.选择"网络"
+4.在筛选器栏输入 api.xiaoheihe.cn 进行过滤
+5.筛选后点F5刷新网页
+6.你需要找一个请求，在标头中向下翻，找到cookie
+7.Cookie 里有这三样东西才算全（如果不全，找到其中一个先记下来，然后找另外的请求）：
+  user_pkey= xxxx...; 
+  user_heybox_id= 一串数字; 这玩意就是你的机器人账号的uid，自己在主页直接看也行
+  x_xhh_tokenid= xxx...
+将这三个数字保存下来，等会用
+>>如果现在一切正常，那你就可以直接前往第四点<<
 
-   user_pkey        → 一串乱码一样的字符
-   user_heybox_id   → 一串数字（你的小黑盒 UID）
-   x_xhh_tokenid    → 另一串乱码
+tips：想自己动手改文件也行，操作如下：
 
-   把它们记下来，下一步要用。
+1. 把 xhh-config.example.json 改名成 xhh-config.json
+2. 用记事本打开它，里面大概长这样：
 
+   ┌──────────────────────────────────────────┐
+   │ {                                        │
+   │   "cookie": {                            │
+   │     "user_pkey": "双引号里填这串",       │
+   │     "heybox_id": "双引号里填这个数字",   │
+   │     "x_xhh_tokenid": "双引号里填这串"    │
+   │   },                                     │
+   │   "ai": {                                │
+   │     "token": "双引号里填你的AI密钥"      │
+   │   }                                      │
+   │ }                                        │
+   └──────────────────────────────────────────┘
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-四、配置
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-1. 把 xhh-config.example.json 重命名为 xhh-config.json
-2. 用记事本打开 xhh-config.json
-3. 填写配置：
-
-  (1) cookie 部分（填上一步从浏览器复制的三个值）：
-    "user_pkey": "你复制的 user_pkey",
-    "heybox_id": "你复制的 heybox_id",
-    "x_xhh_tokenid": "你复制的 x_xhh_tokenid",
-
-  (2) ai 部分：
-    "model": "qwen-turbo",     ← AI 模型名
-    "baseUrl": "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions",
-                                   ← API 地址
-    "token": "sk-xxxxxxxx",    ← 你的 API Key
-
-    "prompt" 是 AI 的角色设定，可以改成你想要的语气
-
-  (3) database 部分（默认用 SQLite，不用改）：
-    "type": "sqlite"           ← sqlite 或 postgresql
+3. 看到有双引号的地方，把引号里面的内容换成你自己的
+   （注意别删掉逗号和花括号，改坏文件会跑不起来）
 
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-五、启动机器人
+四、启动机器人
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-1. 打开 cmd 或 PowerShell
-2. 进入这个文件夹：
+搞完配置就能跑了：
 
-   cd D:\你的路径\xhh-bot
+  双击 setup.bat     ← 第一次用，跟着提示填 Cookie 和 AI 密钥
+  然后双击 start.bat ← 以后直接双击这个启动
 
-3. 安装依赖（只需要第一次）：
+或者在命令行里也行：
 
-   npm install
+  npm install        ← 装依赖，第一次运行前做一次就行
+  node src/setup.js  ← 初始化向导（填 Cookie 和 AI 密钥）
+  node src/index.js  ← 启动机器人
 
-4. 启动：
-
-   node src/index.js
-
-或者直接双击 start.bat 也行。
+启动后让它挂在那里就行，它会每隔 30 秒检查一次有没有人 @ 你。
 
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-六、查看统计
+五、看看有谁 @ 过我（统计）
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-在 cmd 里运行：
+想看看机器人多受欢迎？在命令行里运行：
 
-   node src/index.js --stats
+  node src/index.js --stats
 
 会显示：
-  - 最近 7 天每天多少人 @
-  - 今天每个小时多少人 @
-  - 所有 @ 过你的用户列表
+  - 最近 7 天，每天有多少人 @ 了你的机器人
+  - 今天每个小时有多少人 @
+  - 所有 @ 过你的人，每人 @ 了几次
 
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-七、常见问题
+六、常见问题
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Q：启动后显示 "验证参数错误"？
-A：Cookie 过期了。重新从浏览器 F12 复制 Cookie 更新配置。
+Q：启动后提示"验证参数错误"？
+A：Cookie 过期了。重新按第三步从浏览器 F12 里复制新的 Cookie，
+   然后重新运行 setup.bat 更新配置。
 
-Q：显示 "hkey 不能为空"？
-A：同样 Cookie 过期了，重新获取。
+Q：提示"hkey 不能为空"？
+A：一样的问题，Cookie 过期了。重新弄一遍。
 
-Q：显示 "show_captcha"？
-A：需要完整的 Cookie（包括 user_pkey 和 heybox_id），
-   不只是 x_xhh_tokenid。
+Q：提示"show_captcha"？
+A：说明 Cookie 没拿全，你把 user_pkey 和 heybox_id 也填上，
+   光填 x_xhh_tokenid 不够。
 
-Q：AI 返回空或报错？
-A：检查 API Key 是否有效，余额是否充足。
+Q：AI 不回消息或者报错？
+A：检查你填的 AI 密钥有没有过期、钱包里有没有钱。
 
-Q：想用 PostgreSQL？
-A：把 database.type 改成 "postgresql"，填好数据库地址、
-   用户名和密码。需要先 CREATE TABLE。
+Q：想用自己的数据库（PostgreSQL）？
+A：运行 setup.bat，选 PostgreSQL，填上数据库地址、用户名密码就行。
+
+Q:想要更改角色设定？
+A:1.重新运行setup.bat;
+  2.用记事本打开 xhh-config.json，找到你想改的部分直接改：
+
+改 Cookie → 找到 "cookie" 那一段，替换成从浏览器 F12 新复制的值
+改角色设定 → 找到 "prompt"，把双引号里面的文字换成新的
+换 AI 模型 → 找到 "model" 和 "token"，换成新的
+换数据库 → 找到 "database"，把 type 改成 "postgresql" 或 "sqlite"
+改完保存，重启机器人（关掉旧的命令行窗口，重新双击 start.bat）就行。
 
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-八、文件说明
+七、各文件是干什么的
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-xhh-config.json          ← 机器人配置（你的 Cookie + AI Key）
-xhh-config.example.json  ← 配置模板（带注释）
-start.bat                ← 一键启动
-README.md                ← 完整说明文档
-src/
-├── index.js             ← 主程序（轮询 + 回复）
-├── api.js               ← 小黑盒 API 接口（含签名算法）
+xhh-config.json          ← 你的配置（Cookie + AI 密钥），自己改
+xhh-config.example.json  ← 配置模板，带注释说明
+setup.bat                ← 初始化向导，双击运行填配置
+start.bat                ← 启动机器人，双击运行
+使用说明.txt             ← 你现在看的这个文件
+README.md                ← 英文版说明
+
+src/ 里面的程序文件（不懂编程不用动）：
+├── setup.js             ← 初始化向导程序
+├── index.js             ← 主程序
+├── api.js               ← 小黑盒接口
 ├── ai.js                ← AI 调用
-└── db.js                ← 数据库（SQLite / PostgreSQL）
+└── db.js                ← 数据库
 
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-九、免责声明
+八、免责声明
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 本软件仅供学习和研究使用。
 使用非官方 API 可能存在账号风险，后果自负。
 请遵守小黑盒社区规则。
 
-原项目：https://github.com/SomeOvO/xhhRobot
+原项目：https://github.com/SomeOvO/xhhRobot,感谢大佬开源
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
