@@ -4,6 +4,8 @@
 
 基于 [SomeOvO/xhhRobot](https://github.com/SomeOvO/xhhRobot) 的 API 协议逆向，用 Node.js 重写。
 
+> **⚠️ 注意：使用前请仔细阅读下方完整说明。**
+
 ## 功能
 
 - 🔄 **轮询 @ 消息** — 每隔 N 秒检查新 @
@@ -20,7 +22,6 @@
 
 ```bash
 # 安装 Node.js 依赖
-cd xhh-bot
 npm install
 ```
 
